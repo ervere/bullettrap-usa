@@ -1,0 +1,721 @@
+/* Box Model Hack */
+* {
+    /*box-sizing: border-box;*/
+    font-size: 10px; /* Root Font Size for REM */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Clear fix hack */
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clear {
+   clear: both;
+}
+
+/******************************************
+/* BASE STYLES
+/*******************************************/
+
+:root {
+    --scale: 1;
+    
+    --clr-primary: #D71821;
+
+    --clr-100: #FFFFFF;   /* Primary Text */
+    --clr-200: #9AA7BF;   /* Secondary Text / Navigation Text */
+    --clr-300: #515E76;   /* Transition Elements */
+    --clr-500: #1C2079;   /* Tertiary BG*/
+    --clr-700: #14161a;   /* Secondary BG */
+    --clr-900: #0f0f0f;   /* Background */
+
+    --ff-header: ;
+    --ff-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    --fw-regular: 400;
+    --fw-bold: 700;
+}
+
+body {
+    background-color: var(--clr-900);
+    color: var(--clr-100);
+}
+
+h1 h2 h3 h4 h5 h6 {
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    color: var(--clr-100);
+}
+
+h1     { font-size: 4rem;   }
+h2     { font-size: 3.2rem; }
+h3, h4 { font-size: 2.4rem; }
+
+ul, li, p, a, span, form, label {
+    font-size: 1.6rem;
+    text-decoration: none;
+    line-height: 1.5;
+    color: var(--clr-100);
+    list-style: none;
+}
+
+li { padding-bottom: .8rem;}
+
+ul li::before {
+    content: "";
+    background-image: url(../assets/Bullet_HoleBlack.png);
+    background-size: contain;
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    position: relative;
+    top: 0.1rem;
+    margin-right: .8rem;
+}
+
+nav ul li::before {
+    background-image: none;
+}
+
+/******************************************
+/* LAYOUT
+/*******************************************/
+
+.page-wrapper {
+    margin: 0 auto;
+    width: 95%;
+    max-width: 1400px;
+}
+
+.row-full {
+    width: 100%;
+    max-width: 100%;
+    padding: calc(80px * var(--scale)) 0;
+    justify-content: center;
+    text-align: center;
+}
+
+.row-padding {
+    padding: calc(120px * var(--scale)) calc(80px * var(--scale));
+    justify-content: center;
+    text-align: center;
+}
+
+.row-padding h2 { margin-top: 0;}
+
+.row-top {
+    padding: calc(160px * var(--scale)) calc(80px * var(--scale)) calc(40px * var(--scale)) calc(80px * var(--scale));
+    justify-content: center;
+    text-align: center;
+}
+
+.col-2, .col-3, .col-4 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    max-width: 1400px;
+    gap: 4rem;
+}
+
+.col-info, .card, .col-image {
+    flex: 1;
+}
+
+.col-info ul {
+    text-align: left;
+}
+
+.col-image img {
+    display: block;
+    max-width: 100%;
+    object-fit: fill;
+}
+
+/******************************************
+/* NAV
+*******************************************/
+  
+.toggle,
+  [id^=drop] {
+      display: none;
+}
+  
+nav {
+    position: absolute;
+    width: 100%;
+    max-width: 90vw;
+    margin: 0;
+    padding: calc(20px * var(--scale)) calc(80px * var(--scale));
+    background-color: rgba(0,0,0,1);
+    z-index: 99;
+}
+  
+#logo, img {
+    display: block;
+    padding: 0 2rem;
+    float: left;
+}
+
+/* Since we'll have the "ul li" "float:left" we need to add a clear after the container. */
+nav:after {
+    content:"";
+    display:table;
+    clear:both;
+}
+  
+/* Removing padding, margin and "list-style" from the "ul", and adding "position:reltive" */
+nav ul {
+    position: relative;
+    float: right;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+      
+/* Positioning the navigation items inline */
+nav ul li {
+    margin: 0px;
+    display: inline-block;
+    float: left;
+    background-color: rgba(0,0,0,1);
+}
+  
+/* Styling the links */
+nav a {
+    display: block;
+    padding: 0.4rem calc(20px * var(--scale));	
+    color: var(--clr-100);
+    font-size: 1.8rem;
+    text-decoration: none;
+}
+  
+  
+nav ul li ul li:hover { background: #000000; }
+  
+/* Background color change on Hover */
+nav a:hover { 
+    background-color: #000000; 
+}
+  
+/* Hide Dropdowns by Default and giving it a position of absolute */
+nav ul ul {
+    display: none;
+    position: absolute; 
+    /* has to be the same number as the "line-height" of "nav a" */
+    top: 70px; 
+}
+      
+/* Display Dropdowns on Hover */
+nav ul li:hover > ul {
+    display:inherit;
+}
+      
+/* Fisrt Tier Dropdown */
+nav ul ul li {
+    width: 170px;
+    float: none;
+    display:list-item;
+    position: relative;
+}
+  
+  /* Second, Third and more Tiers	
+   * We move the 2nd and 3rd etc tier dropdowns to the left by the amount of the width of the first tier. */
+nav ul ul ul li {
+    position: relative;
+    top: -70px;
+    /* has to be the same number as the "width" of "nav ul ul li" */ 
+    left: 170px; 
+}
+
+/* Change ' +' in order to change the Dropdown symbol */
+li > a:after { content:  ' +'; }
+li > a:only-child:after { content: ''; }
+
+  
+@media all and (max-width : 768px) {
+
+    #logo {
+          display: block;
+          padding: 0;
+          width: 100%;
+          text-align: center;
+          float: none;
+    }
+  
+    nav { margin: 0; }
+  
+    /* Hide the navigation menu by default */
+    .toggle + a, .menu { display: none; }
+  
+    /* Styling the toggle lable */
+    .toggle {
+        display: block;
+        background-color: rgba(0,0,0,1);
+        padding: 1.4rem 2rem;	
+        color: var(--clr-100);
+        font-size: 1.8rem;
+        text-decoration: none;
+        border: none;
+    }
+  
+    .toggle:hover { background-color: #000000; }
+  
+    /* Display Dropdown when clicked on Parent Lable */
+    [id^=drop]:checked + ul {
+        display: block;
+    }
+  
+    /* Change menu item's width to 100% */
+    nav ul li {
+        display: block;
+        width: 100%;
+    }
+  
+    nav ul ul .toggle, nav ul ul a { padding: 0 4rem; }
+  
+    nav ul ul ul a { padding: 0 8rem; }
+  
+    nav a:hover, nav ul ul ul a { background-color: #000000; }
+    
+    nav ul li ul li .toggle, nav ul ul a, nav ul ul ul a {
+          padding: 1.4rem 2rem;	
+          color: var(--clr-100);
+          font-size: 1.8rem; 
+    }
+    
+    nav ul li ul li .toggle, nav ul ul a { background-color: var(--clr-700);  }
+  
+    /* Hide Dropdowns by Default */
+    nav ul ul {
+        float: none;
+        position: static;
+        color: var(--clr-100);
+        /* has to be the same number as the "line-height" of "nav a" */
+    }
+          
+    /* Hide menus on hover */
+    nav ul ul li:hover > ul, nav ul li:hover > ul { display: none; }
+          
+    /* Fisrt Tier Dropdown */
+    nav ul ul li {
+        display: block;
+        width: 100%;
+    }
+  
+    nav ul ul ul li {
+        position: static;
+        /* has to be the same number as the "width" of "nav ul ul li" */ 
+    }
+  }
+  
+  @media all and (max-width : 330px) {
+
+    nav ul li {
+        display: block;
+        width: 94%;
+    }
+  }
+
+/******************************************
+/* FOOTER
+/*******************************************/
+
+.footer-container {
+	max-width: 1400px;
+	margin: 0 auto;
+    padding: calc(40px * var(--scale)) calc(80px * var(--scale));
+}
+
+.footer-row {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.footer-alt {
+    padding: 2rem 0;
+    background-color: var(--clr-700);
+}
+
+ul { list-style: none; }
+
+.footer {
+    background-color: var(--clr-900);
+    padding: 6rem 0;
+}
+
+.footer-col {
+   width: 18%;
+   padding: 0 1rem;
+}
+
+.footer-col-2 { width: 40%; }
+
+.footer-col h4 {
+	font-size: 1.8rem;
+	color: var(--clr-100);
+	text-transform: capitalize;
+	margin-bottom: 35px;
+	font-weight: var(--fw-bold);
+	position: relative;
+}
+
+.footer-col h4::before {
+	content: '';
+	position: absolute;
+    height: 2px;
+    width: 5rem;
+	left:0;
+	bottom: -10px;
+	background-color: var(--clr-primary);
+	box-sizing: border-box;
+}
+
+.footer-col ul li:not(:last-child) { margin-bottom: 10px; }
+
+.footer-col ul li a {
+	font-size: 1.6rem;
+	text-transform: capitalize;
+	color: var(--clr-100);
+	text-decoration: none;
+	font-weight: var(--fw-regular);
+	color: var(--clr-100);
+	display: block;
+	transition: all 0.3s ease;
+}
+
+.footer-col ul li a:hover {
+	color: var(--clr-100);
+	padding-left: 8px;
+}
+
+footer img { max-width: 250px; }
+
+#footer-flag { max-width: 100px; }
+
+@media(max-width: 767px){
+  .footer-col, .footer-col-2 {
+    width: 40%;
+    margin-bottom: 30px;
+  }
+}
+
+@media(max-width: 574px){
+  .footer-col, .footer-col-2 { width: 100%; }
+}
+
+/******************************************
+/* RECURRING ELEMENTS
+/*******************************************/
+
+img {
+    width: 100%;
+    max-width: 500px;
+}
+
+iframe {
+    width: 100%;
+    max-width: 100%;
+    height: calc(400px * var(--scale));
+}
+
+/* Framed Images */
+.img-frame {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    background: var(--clr-900);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+  
+.img-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(315deg,#515E76,#1C2079);
+}
+  
+.img-frame b {
+    position: absolute;
+    inset: 6px;
+    background: rgba(0, 0, 0, 0.6);
+}
+  
+.img-frame img {
+    position: absolute;
+    z-index: 1;
+    scale: 0.8;
+    opacity: 1;
+    transition: 0.5s;
+}
+
+/* End of Framed Images */
+
+.slide img {
+    width: 100%;
+    max-width: 100%;
+}
+
+.trap-showcase {
+    display: grid;
+    grid-template-columns: 25% auto;
+    align-items: center;
+    /*gap: 1rem;*/
+    margin: 4rem 0;
+    background-color: var(--clr-700);
+    padding: 2rem;
+    border-radius: 17px;
+    border: 2px solid var(--clr-500);
+    text-align: left;
+}
+
+.trap-showcase img {
+    width: calc(200px * var(--scale));
+    height: calc(200px * var(--scale));
+    background-color: var(--clr-700);
+}
+
+.card {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(400px*var(--scale));
+    padding: calc(40px*var(--scale));
+    background: var(--clr-700);
+    border: 3px solid var(--clr-500);
+    box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(6px);
+    border-radius: 17px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s;
+    user-select: none;
+    font-weight: var(--fw-bold);
+}
+
+.card p {
+    font-size: 1.8rem;
+    font-weight: var(--fw-regular);
+}
+  
+.card:hover, button:hover { transform: scale(1.05); }
+
+.card:hover { border: 3px solid var(--clr-500); }
+  
+.card:active, button:active { transform: scale(0.95) rotateZ(1.7deg); }
+
+button {
+    padding: 1rem 2rem;
+    border: 1px solid var(--clr-primary);
+    border-radius: 8px;
+    background-color: var(--clr-primary);
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+button, button a {
+    font-size: 1.8rem;
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    color: var(--clr-100);
+}
+
+.bg {
+    background: url("../assets/background.jpg") repeat;
+}
+
+.bg-bullets {
+    background-image: linear-gradient(
+        rgba(15, 15, 15, 0.9),
+        rgba(15, 15, 15, 0.9)
+      ),
+      url("../assets/Bullets.jpg");
+}
+
+.overlay {
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.4),
+        rgba(0, 0, 0, 0.4)
+      ),
+      url("../assets/background.jpg");
+    /*background: rgba(57, 57, 57, 0.5);*/
+    
+    /* center overlay text */
+   /* display: flex;
+    align-items: center;
+    justify-content: center;
+    inset: 0;*/
+}
+
+
+
+/******************************************
+/* INDIVIDUAL ELEMENTS
+/*******************************************/
+
+#logo {
+    width: calc(300px * var(--scale));
+    max-width: 300px;
+}
+
+#aboutImg, #muzzleImg, video {
+    float: none;
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    margin: 2rem auto;
+    border: 3px solid var(--clr-500);
+    border-radius: 17px;
+}
+
+.form-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 6rem;
+    text-align: left;
+}
+
+.input {
+    box-sizing: border-box;
+    margin-top: 1rem;
+    width: 100%;
+    padding-inline: 0.5em; /* Horizontal padding */
+    padding-block: 1rem;
+    border: 2px solid var(--clr-500);
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--clr-100);
+    font-size: 1.6rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+.input-border {
+    position: absolute;
+    height: 2px;
+    width: 0%;
+    bottom: 0;
+    left: 0;
+    background: var(--border-after-color);
+    transition: width 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+  
+.input:focus {
+    outline: none;
+}
+  
+.input:focus + .input-border {
+    width: 100%;
+}
+  
+.form-control {
+    position: relative;
+    margin: 2.5rem 3rem 1.5rem 0;
+}
+  
+.input-alt {
+    font-size: 1.6rem; /* Controls the font size of input text */
+    /*padding-inline: 1em; */ /* Horizontal padding */
+    padding-block: 0.8em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+  
+.input-border-alt {
+    height: 3px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #D71821 0%, #FFFFFF 50%, #515E76 100%);
+    transition: width 0.4s cubic-bezier(0.42, 0, 0.58, 1.00);
+}
+  
+.input-alt:focus + .input-border-alt { width: 100%; }
+
+/******************************************
+/* MEDIA QUERIES
+/*******************************************/
+
+@media screen and (width >= 1580px) {
+    :root {
+         --scale: 1.1;
+    }
+}
+
+@media screen and (width <=1200px) {
+    :root {
+         --scale: 0.9;
+    }
+
+    .footer-wrapper .widgets-wrapper {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media screen and (width <= 992px) {
+    :root {
+         --scale: 0.8;
+    } 
+}
+
+@media screen and (width <= 768px) {
+    :root {
+         --scale: 0.6;
+    }
+
+    .row-padding, .row-full {
+        padding: calc(80px*var(--scale)) calc(40px*var(--scale));
+    }
+
+    .col-2, .col-3, .col-4 {
+        flex-direction: column;
+    }
+
+    .site-footer .footer-wrapper {
+        grid-template-columns: repeat(1, 1fr);
+    }
+  
+    .site-footer .widgets-wrapper { 
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .col-info, .col-image, .card {
+        width: 100%;
+    }
+
+    .trap-showcase img {
+        display: none;
+    }
+
+    #logo {
+        width: 240px;
+    }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {  
+    * {
+      /* Very short durations means JavaScript that relies on events still works */
+      animation-duration: 0.001ms  !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+@media print {
+    body {
+         background-color: var(--clr-100);
+         color: var(--clr-900);
+    }
+
+    nav ul li {
+        background-color: var(--clr-100);
+    }
+}

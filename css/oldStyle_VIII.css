@@ -1,0 +1,671 @@
+/* Box Model Hack */
+* {
+    /*box-sizing: border-box;*/
+    font-size: 10px; /* Root Font Size for REM */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Clear fix hack */
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clear {
+   clear: both;
+}
+
+/******************************************
+/* BASE STYLES
+/*******************************************/
+
+:root {
+    --scale: 1;
+    
+    --clr-primary: #D71821;
+
+    --clr-100: #FFFFFF;   /* Primary Text */
+    --clr-200: #9AA7BF;   /* Secondary Text / Navigation Text */
+    --clr-300: #515E76;   /* Transition Elements */
+    --clr-500: #1C2029;   /* Tertiary BG */
+    --clr-700: #14161a;   /* Secondary BG */
+    --clr-900: #0f0f0f;   /* Background */
+
+    --ff-header: ;
+    --ff-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+    --fw-regular: 400;
+    --fw-bold: 700;
+}
+
+body {
+    background-color: var(--clr-900);
+    color: var(--clr-100);
+}
+
+h1 h2 h3 h4 h5 h6 {
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    color: var(--clr-100);
+}
+
+h1     { font-size: 4rem;   }
+h2     { font-size: 3.2rem; }
+h3, h4 { font-size: 2.4rem; }
+
+ul, li, p, a, span, form, label {
+    font-size: 1.6rem;
+    text-decoration: none;
+    line-height: 1.5;
+    color: var(--clr-100);
+    list-style: none;
+}
+
+li { padding-bottom: .8rem;}
+
+ul li::before {
+    content: "";
+    background-image: url(../assets/Bullet_HoleBlack.png);
+    background-size: contain;
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    position: relative;
+    top: 0.1rem;
+    margin-right: .8rem;
+}
+
+nav ul li::before {
+    background-image: none;
+}
+
+/******************************************
+/* LAYOUT
+/*******************************************/
+
+.page-wrapper {
+    margin: 0 auto;
+    width: 95%;
+    max-width: 1400px;
+    padding-top: 8rem;
+}
+
+.row-full, .row-padding {
+    max-width: 100%;
+    padding: calc(40px * var(--scale)) calc(80px * var(--scale));
+    justify-content: center;
+    text-align: center;
+}
+
+.row-padding h2 { margin-top: 0;}
+
+.col-2, .col-3, .col-4 {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    max-width: 1200px;
+    gap: 5rem;
+}
+
+.col-info {
+    flex: 1;
+    width: 40%;
+    max-width: 35%;
+}
+
+.col-info ul {
+    text-align: left;
+}
+
+.col-image {
+    flex: 1;
+    width: 60%;
+    max-width: 65%;
+}
+
+.col-image img {
+    object-fit: fill;
+}
+
+/******************************************
+/* NAV
+*******************************************/
+
+nav {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+	margin: 0;
+	padding: calc(10px*var(--scale)) calc(80px*var(--scale));
+    z-index: 1;
+	background-color: rgba(0,0,0,1);
+}
+
+#logo { max-width: 240px; }
+
+nav:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    list-style-image: none;
+	list-style: none;
+	position: relative;
+}
+
+nav ul li {
+	margin: 0px;
+    padding: 0 1rem;
+    text-transform: uppercase;
+    list-style-image: none;
+	display:inline-block;
+	background-color: rgba(0,0,0,1);
+}
+
+nav a {
+	display: block;
+	padding: 0 2rem 1rem 2rem;
+	color: var(--clr-100);
+	text-decoration:none;
+}
+
+nav ul li ul li:hover {
+    background: var(--clr-900);
+}
+
+nav a:hover { 
+	background-color: var(--clr-900); 
+}
+
+/* Hide Dropdowns by Default and giving it a position of absolute */
+nav ul ul {
+	display: none;
+	position: absolute; 
+}
+	
+/* Display Dropdowns on Hover */
+nav ul li:hover > ul {
+	display: inherit;
+}
+	
+/* Fisrt Tier Dropdown */
+nav ul ul li {
+	width:170px;
+	float: none;
+	display: list-item;
+	position: relative;
+}
+
+/* Second, Third and more Tiers	*/
+nav ul ul ul li {
+	position: relative;
+	top:-60px;
+	left:140px;
+}
+
+/* Change ' +' in order to change the Dropdown symbol */
+li > a:after { content:  ' +'; }
+li > a:only-child:after { content: ''; }
+
+.toggle,
+[id^=drop] {
+	display: none;
+}
+
+/*************************/
+/* nav-toggler css start */
+.nav-toggler {
+    display: none;
+    height: 40px;
+    padding: 5px;
+    border: 2px solid var(--clr-100);
+    background-color: transparent;
+    cursor: pointer;
+}
+.nav-toggler span, .nav-toggler span:before, .nav-toggler span:after {
+    display: block;
+    height: 2px;
+    width: 28px;
+    background-color: var(--clr-100);
+    transition: .3s;
+}
+
+.nav-toggler span:before {
+    content: '';
+    transform: translateY(-9px);
+}
+
+.nav-toggler span:after {
+    content: '';
+    transform: translateY(6px);
+}
+  
+.nav-toggler.toggler-open span {
+    background-color: transparent;
+}
+
+.nav-toggler.toggler-open span:before {
+    transform: translateY(0px) rotate(45deg);
+}
+
+.nav-toggler.toggler-open span:after {
+    transform: translateY(-3px) rotate(-45deg);
+}
+
+/******************************************
+/* FOOTER
+/*******************************************/
+
+/* Footer Source: https://codepen.io/tutsplus/pen/RwEbdBE */
+.site-footer {
+    color: var(--clr-100);
+    background: var(--clr-900);
+}
+
+.site-footer .logo-wrapper div {
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1;  
+}
+
+.site-footer .footer-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: calc(10px*var(--scale));
+    border-top: 1px solid rgba(255,255,255,0.2);
+    margin-top: 20px;
+}
+
+.footer-wrapper .widgets-wrapper {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+}
+  
+.site-footer h5 {
+    font-size: 20px;
+    margin: 20px 0;
+    text-align: left;
+}
+  
+.site-footer ul {
+    list-style: none;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+}
+  
+.site-footer ul:not(.socials) li + li { margin-top: 10px; }
+
+footer img { max-width: 250px; }
+
+#footer-flag { max-width: 100px; }
+
+/******************************************
+/* RECURRING ELEMENTS
+/*******************************************/
+
+img {
+    width: 100%;
+    max-width: 500px;
+}
+
+.slide img {
+    width: 100%;
+    max-width: 100%;
+}
+
+.trap-showcase {
+    display: grid;
+    grid-template-columns: 25% auto;
+    align-items: center;
+    /*gap: 1rem;*/
+    margin: 4rem 0;
+    background-color: var(--clr-700);
+    padding: 2rem;
+    border-radius: 17px;
+    border: 2px solid var(--clr-500);
+    text-align: left;
+}
+
+.trap-showcase img {
+    width: calc(200px * var(--scale));
+    height: calc(200px * var(--scale));
+    background-color: var(--clr-700);
+}
+
+.card {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(400px*var(--scale));
+    /*height: 30rem;*/
+    padding: calc(40px*var(--scale));
+    background: var(--clr-700);
+    border: 2px solid var(--clr-500);
+    box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(6px);
+    border-radius: 17px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s;
+    user-select: none;
+    font-weight: var(--fw-bold);
+}
+
+.card p {
+    /*color: var(--clr-200);*/
+    font-size: 2rem;
+    font-weight: var(--fw-regular);
+}
+  
+.card:hover, button:hover { transform: scale(1.05); }
+
+.card:hover { border: 1px solid var(--clr-500); }
+  
+.card:active, button:active { transform: scale(0.95) rotateZ(1.7deg); }
+
+button {
+    padding: 1rem 2rem;
+    border: 1px solid var(--clr-primary);
+    border-radius: 8px;
+    background-color: var(--clr-primary);
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+button, button a {
+    font-size: 1.8rem;
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    color: var(--clr-100);
+}
+
+.bg {
+    background: url("../assets/background.jpg") repeat var(--clr-500);
+}
+
+.overlay {
+    background-color: rgba(15,15,15,.68);
+}
+
+/******************************************
+/* INDIVIDUAL ELEMENTS
+/*******************************************/
+
+#logo {
+    max-width: 240px;
+}
+
+#aboutImg, #muzzleImg, video {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid var(--clr-200);
+    border-radius: 17px;
+}
+
+.form-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 6rem;
+    text-align: left;
+}
+
+form .form-col {
+    display: flex;
+    width: 100%;
+    column-gap: 15px;
+}
+
+.input {
+    box-sizing: border-box;
+    margin-top: 1rem;
+    width: 100%;
+    padding-inline: 0.5em; /* Horizontal padding */
+    padding-block: 1rem;
+    border: 2px solid var(--clr-500);
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--clr-100);
+    font-size: 1.6rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+  
+.input-border {
+    position: absolute;
+    height: 2px;
+    width: 0%;
+    bottom: 0;
+    left: 0;
+    background: var(--border-after-color);
+    transition: width 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+}
+  
+.input:focus {
+    outline: none;
+}
+  
+.input:focus + .input-border {
+    width: 100%;
+}
+  
+.form-control {
+    position: relative;
+    margin: 1.5rem 3rem 1.5rem 0;
+}
+  
+.input-alt {
+    font-size: 1.6rem; /* Controls the font size of input text */
+    /*padding-inline: 1em; */ /* Horizontal padding */
+    padding-block: 0.8em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+  
+.input-border-alt {
+    height: 3px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #D71821 0%, #FFFFFF 50%, #515E76 100%);
+    transition: width 0.4s cubic-bezier(0.42, 0, 0.58, 1.00);
+}
+  
+.input-alt:focus + .input-border-alt {
+    width: 100%;
+}
+
+/******************************************
+/* MEDIA QUERIES
+/*******************************************/
+
+@media screen and (width >= 1580px) {
+    :root {
+         --scale: 1.1;
+    }
+}
+
+@media screen and (width <=1200px) {
+    :root {
+         --scale: 0.9;
+    }
+
+    .footer-wrapper .widgets-wrapper {
+        grid-template-columns: repeat(3, 1fr);
+     }
+}
+
+@media screen and (width <= 992px) {
+    :root {
+         --scale: 0.8;
+    }
+}
+
+@media screen and (width <= 768px) {
+    :root {
+         --scale: 0.6;
+    }
+
+    .row-padding {
+         padding: calc(20px*var(--scale)) calc(40px*var(--scale));
+    }
+
+    .col-2, .col-3, .col-4 {
+        flex-direction: column;
+    }
+
+    .site-footer .footer-wrapper {
+        grid-template-columns: repeat(1, 1fr);
+    }
+  
+    .site-footer .widgets-wrapper { 
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .col-info, .col-image, .card {
+        width: 100%;
+    }
+
+    #logo {
+        max-width: 200px;
+    }
+
+    .trap-showcase img {
+        display: none;
+    }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {  
+    * {
+      /* Very short durations means JavaScript that relies on events still works */
+      animation-duration: 0.001ms  !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+@media print {
+    body {
+         background-color: var(--clr-100);
+         color: var(--clr-900);
+    }
+
+    nav ul li {
+        background-color: var(--clr-100);
+    }
+}
+
+
+
+/***** FORMAT LATER *******/
+
+@media all and (max-width : 768px) {
+
+    /* navbar css for mobile start */
+    .nav-toggler{
+        display: block;
+    }
+
+	/* Hide the navigation menu by default */
+	/* Also hide the  */
+	.toggle + a,
+	.menu {
+		display: none;
+	}
+
+	/* Styling the toggle lable */
+	.toggle {
+		display: block;
+		background-color: rgba(0,0,0,1);
+		padding:14px 20px;	
+		color:var(--clr-100);
+		font-size:17px;
+		text-decoration:none;
+		border:none;
+	}
+
+	.toggle:hover {
+		background-color: #000000;
+	}
+
+	/* Display Dropdown when clicked on Parent Lable */
+	[id^=drop]:checked + ul {
+		display: block;
+	}
+
+	/* Change menu item's width to 100% */
+	nav ul li {
+		display: block;
+		width: 100%;
+		}
+
+	nav ul ul .toggle,
+	nav ul ul a {
+		padding: 0 40px;
+	}
+
+	nav ul ul ul a {
+		padding: 0 80px;
+	}
+
+	nav a:hover,
+ 	nav ul ul ul a {
+		background-color: #000000;
+	}
+  
+	nav ul li ul li .toggle,
+	nav ul ul a,
+  nav ul ul ul a{
+		padding:14px 20px;	
+		color:#FFF;
+		font-size:17px; 
+	}
+  
+  
+	nav ul li ul li .toggle,
+	nav ul ul a {
+		background-color: #212121; 
+	}
+
+	/* Hide Dropdowns by Default */
+	nav ul ul {
+		float: none;
+		position:static;
+		color: #FFFFFF;
+		/* has to be the same number as the "line-height" of "nav a" */
+	}
+		
+	/* Hide menus on hover */
+	nav ul ul li:hover > ul,
+	nav ul li:hover > ul {
+		display: none;
+	}
+		
+	/* Fisrt Tier Dropdown */
+	nav ul ul li {
+		display: block;
+		width: 100%;
+	}
+
+	nav ul ul ul li {
+		position: static;
+		/* has to be the same number as the "width" of "nav ul ul li" */ 
+	}
+
+    nav ul li {
+		display:block;
+		width: 94%;
+	}
+}
